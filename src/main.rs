@@ -49,6 +49,10 @@ fn main() {
         Units::IMPERIAL => ("grains", "FPS", "FPE"),
     };
 
+    if result.bogus {
+        println!("WARNING: All shot parameters have been given. Nothing has been derived. Displaying as is.");
+    }
+
     print!(
         "Derived shot parameters are:\nProjectile mass:\t{:.3} {}\nProjectile speed:\t{:.3} {}\nProjectile energy:\t{:.3} {}\n\n",
         result.mass, mass_unit,

@@ -19,6 +19,7 @@ pub struct Params {
     pub mass: f64,
     pub speed: f64,
     pub energy: f64,
+    pub bogus: bool,
 }
 
 /// Performs calculations based on given input config.
@@ -30,20 +31,20 @@ pub fn run(config: Config) -> Result<Params, String> {
         // Mass and speed given. Derive energy.
         (Some(m), Some(s), None) => {
             let derived_energy = derive_energy(&m, &s, &units);
-            Ok(Params { units, mass: m, speed: s, energy: derived_energy })
+            Ok(Params { units, mass: m, speed: s, energy: derived_energy, bogus: false })
         },
         // Mass and energy given. Derive speed.
         (Some(m), None, Some(e)) => {
             let derived_speed = derive_speed(&m, &e, &units);
-            Ok(Params { units, mass: m, speed: derived_speed, energy: e })
+            Ok(Params { units, mass: m, speed: derived_speed, energy: e, bogus: false })
         },
         // Speed and energy given. Derive mass.
         (None, Some(s), Some(e)) => {
             let derived_mass = derive_mass(&s, &e, &units);
-            Ok(Params { units, mass: derived_mass, speed: s, energy: e })
+            Ok(Params { units, mass: derived_mass, speed: s, energy: e, bogus: false })
         },
         // All parameters passed. Nothing to derive.
-        (Some(m), Some(s), Some(e)) => Ok(Params { units, mass: m, speed: s, energy: e }),
+        (Some(m), Some(s), Some(e)) => Ok(Params { units, mass: m, speed: s, energy: e, bogus: true }),
         // Everything else is an error.
         _ => {
             Err(
