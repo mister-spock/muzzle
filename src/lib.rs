@@ -84,7 +84,7 @@ fn derive_energy(mass: &f64, speed: &f64, units: &Units) -> f64 {
 /// Tries to parse `f64` out of given option string
 fn get_float(param: Option<String>) -> Result<Option<f64>, String> {
     match param {
-        Some(st) => match st.parse() {
+        Some(st) => match st.parse::<f64>() {
             Ok(n) => Ok(Some(n)),
             Err(_) => Err(format!("Failed to parse `{}` as input parameter!", st)),
         },
