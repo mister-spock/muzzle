@@ -17,7 +17,7 @@ fn main() {
     let matches = match opts.parse(&args[1..]) {
         Ok(m) => m,
         Err(f) => {
-            println!("Failed to parse parameters with: {}", f.to_string());
+            eprintln!("Failed to parse parameters with: {}", f.to_string());
             process::exit(1);
         },
     };
@@ -38,7 +38,7 @@ fn main() {
     let result = match run(config) {
         Ok(params) => params,
         Err(error) => {
-            println!("Failed to calculate parameters with: {}", error);
+            eprintln!("Failed to calculate parameters with: {}", error);
             process::exit(1);
         },
     };

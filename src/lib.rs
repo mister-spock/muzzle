@@ -46,12 +46,10 @@ pub fn run(config: Config) -> Result<Params, String> {
         // All parameters passed. Nothing to derive.
         (Some(m), Some(s), Some(e)) => Ok(Params { units, mass: m, speed: s, energy: e, bogus: true }),
         // Everything else is an error.
-        _ => {
-            Err(
-                "Incorrect parameters set. At least two out of three parameters must be given to derive the third.
+        _ => Err(
+            "Incorrect parameters set. At least two out of three parameters must be given to derive the third.
 Please check input.".to_owned()
-            )
-        },
+        ),
     }
 }
 
