@@ -1,24 +1,40 @@
 const GEE_FPS: f64 = 32.174;
 const GRAMS_IN_KILO: f64 = 1000f64;
-const GRANS_IN_POUND: f64 = 7000f64;
+const GRAINS_IN_POUND: f64 = 7000f64;
 
+/// Measurment system to perform calculations in.
 pub enum Units {
+    /// Metric system (e.g. "meters per secons", "joules", "grams")
     METRIC,
+    /// Imperial system (e.g. "feet per second", "foot-pounds of energy", "grains")
     IMPERIAL,
 }
 
+/// Configuration object that needs to be passed to `run` function to perform calculations on.
 pub struct Config {
+    /// Chosen units of measurment
     pub units: Units,
+    /// Mass of the projectile (in grams of grains depending on measurment system chosen)
     pub mass: Option<String>,
+    /// Speed of the projectile (in m/s of FPS depending on measurment system chosen)
     pub speed: Option<String>,
+    /// Energy of the projectile (in joules of FPE depending on measurment system chosen)
     pub energy: Option<String>,
 }
 
+/// Object that is the output of the `run` function.
+/// Holds all derived parameters of the shot.
 pub struct Params {
+    /// Chosen units of measurment
     pub units: Units,
+    /// Mass of the projectile (in grams of grains depending on measurment system chosen)
     pub mass: f64,
+    /// Speed of the projectile (in m/s of FPS depending on measurment system chosen)
     pub speed: f64,
+    /// Energy of the projectile (in joules of FPE depending on measurment system chosen)
     pub energy: f64,
+    /// A flag that points to the fact that `run` function got all three of the input parameters
+    /// as input in `Config` object and no calculations have been performed
     pub bogus: bool,
 }
 
@@ -57,7 +73,7 @@ Please check input.".to_owned()
 fn derive_mass(speed: &f64, energy: &f64, units: &Units) -> f64 {
     match units {
         Units::METRIC => ((2.0 * energy) / speed.powi(2)) * GRAMS_IN_KILO,
-        Units::IMPERIAL => ((2.0 * GEE_FPS * energy) / speed.powi(2)) * GRANS_IN_POUND,
+        Units::IMPERIAL => ((2.0 * GEE_FPS * energy) / speed.powi(2)) * GRAINS_IN_POUND,
     }
 }
 
@@ -65,7 +81,7 @@ fn derive_mass(speed: &f64, energy: &f64, units: &Units) -> f64 {
 fn derive_speed(mass: &f64, energy: &f64, units: &Units) -> f64 {
     let speed_squared = match units {
         Units::METRIC => (2.0 * energy) / (mass / GRAMS_IN_KILO),
-        Units::IMPERIAL => (2.0 * GEE_FPS * energy) / (mass / GRANS_IN_POUND),
+        Units::IMPERIAL => (2.0 * GEE_FPS * energy) / (mass / GRAINS_IN_POUND),
     };
 
     speed_squared.powf(0.5)
@@ -75,7 +91,7 @@ fn derive_speed(mass: &f64, energy: &f64, units: &Units) -> f64 {
 fn derive_energy(mass: &f64, speed: &f64, units: &Units) -> f64 {
     match units {
         Units::METRIC => ((mass / GRAMS_IN_KILO) * speed.powi(2)) / 2.0,
-        Units::IMPERIAL => ((mass / GRANS_IN_POUND) * speed.powi(2)) / (2.0 * GEE_FPS),
+        Units::IMPERIAL => ((mass / GRAINS_IN_POUND) * speed.powi(2)) / (2.0 * GEE_FPS),
     }
 }
 
