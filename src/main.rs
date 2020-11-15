@@ -23,7 +23,7 @@ fn main() {
     };
 
     // Display help and exit
-    if matches.opt_present("h") {
+    if matches.opt_present("h") || args.len() < 2 {
         println!("{}", generate_usage(&opts));
         process::exit(0);
     }
