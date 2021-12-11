@@ -2,7 +2,7 @@
 name = "muzzle"
 version = "1.0.0"
 authors = ["Oleg Kozak <olegus1203@gmail.com>"]
-edition = "2018"
+edition = "2021"
 
 [dependencies]
 getopts = "0.2"
